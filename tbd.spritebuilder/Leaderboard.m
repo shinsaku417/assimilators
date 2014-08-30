@@ -22,8 +22,12 @@
 
 - (void)addName {
     _playerName = _textfield.string;
-    [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard"];
-    [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+    if (_playerName.length > 18) {
+        [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
+    } else {
+        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard"];
+        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+    }
 }
 
 - (void)receivedScores:(NSDictionary*)scores
@@ -43,7 +47,7 @@
         CCLabelTTF *name = [[CCLabelTTF alloc]init];
         name.string = [dict objectForKey:@"name"];
         name.positionType = CCPositionTypeNormalized;
-        name.position = ccp(0.3, 0.95 - spacing);
+        name.position = ccp(0.475, 0.95 - spacing);
          [self setFont:name];
         [_leaderboard.contentNode addChild:name];
         
