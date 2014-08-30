@@ -27,8 +27,6 @@
     NSString *_state2;
     
     BOOL _gameOver;
-    
-    CCLabelTTF *_scoreLabel;
 }
 
 - (void)didLoadFromCCB {
@@ -41,12 +39,15 @@
     
     _bars = [NSMutableArray array];
     
+    _scrollSpeed = 80;
+    
     _state1 = @"red";
     _state2 = @"blue";
     
     _gameOver = false;
     
     _center = [CCNodeColor nodeWithColor:[CCColor blackColor]];
+    _center.opacity = 0.5;
     _center.positionType = CCPositionTypeNormalized;
     _center.position = ccp(0.5,0.5);
     _center.anchorPoint = ccp(0.5,0.5);
@@ -56,8 +57,6 @@
     
     [self schedule:@selector(spawnBarLeft) interval:3.f];
     [self schedule:@selector(spawnBarRight) interval:2.5f];
-    
-    [self schedule:@selector(time) interval:1.f];
 }
 
 - (void)update:(CCTime)delta {
@@ -92,12 +91,14 @@
     CCSprite *bar = [self generateBar:bar];
     bar.anchorPoint = ccp(1,0.5);
     [_physicsNode addChild:bar z:-1];
+    bar.position = ccp(self.contentSize.width / 2 - _center.contentSize.width / 2,-0.1);
     [_bars addObject:bar];
 }
 
 - (void)spawnBarRight {
     CCSprite *bar = [self generateBar:bar];
     bar.anchorPoint = ccp(0,0.5);
+    bar.position = ccp(self.contentSize.width / 2 + _center.contentSize.width / 2,-0.1);
     [_physicsNode addChild:bar z:-1];
     [_bars addObject:bar];
 }
@@ -116,7 +117,6 @@
             bar = (CCSprite *)[CCBReader load:@"greenbar"];
     }
     bar.positionType = CCPositionTypeNormalized;
-    bar.position = ccp(self.contentSize.width / 2 + _center.contentSize.width / 2,-0.1);
     bar.scaleY = 1.5;
     return bar;
 }
