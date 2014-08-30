@@ -114,6 +114,7 @@
 		F1EC672819B23D58000BF4BB /* send-button-instate.png in Resources */ = {isa = PBXBuildFile; fileRef = F1EC66E219B23D58000BF4BB /* send-button-instate.png */; };
 		F1EC672919B23D58000BF4BB /* send-field-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F1EC66E319B23D58000BF4BB /* send-field-landscape.png */; };
 		F1EC672C19B241FE000BF4BB /* Recap.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC672B19B241FE000BF4BB /* Recap.m */; };
+		F1EC672F19B26103000BF4BB /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC672E19B26103000BF4BB /* Leaderboard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,6 +249,8 @@
 		F1EC66E319B23D58000BF4BB /* send-field-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "send-field-landscape.png"; sourceTree = "<group>"; };
 		F1EC672A19B241FE000BF4BB /* Recap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recap.h; sourceTree = "<group>"; };
 		F1EC672B19B241FE000BF4BB /* Recap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recap.m; sourceTree = "<group>"; };
+		F1EC672D19B26103000BF4BB /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leaderboard.h; sourceTree = "<group>"; };
+		F1EC672E19B26103000BF4BB /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Leaderboard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +301,8 @@
 				F1EC667219B14608000BF4BB /* GamePlay.m */,
 				F1EC672A19B241FE000BF4BB /* Recap.h */,
 				F1EC672B19B241FE000BF4BB /* Recap.m */,
+				F1EC672D19B26103000BF4BB /* Leaderboard.h */,
+				F1EC672E19B26103000BF4BB /* Leaderboard.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -675,6 +680,7 @@
 				F1EC667319B14608000BF4BB /* GamePlay.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
+				F1EC672F19B26103000BF4BB /* Leaderboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

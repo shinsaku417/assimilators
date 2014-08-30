@@ -65,7 +65,6 @@
     _gameOver = false;
     
     _center = [CCNodeColor nodeWithColor:[CCColor blackColor]];
-    _center.opacity = 0.25;
     _center.positionType = CCPositionTypeNormalized;
     _center.position = ccp(0.5,0.5);
     _center.anchorPoint = ccp(0.5,0.5);
@@ -306,6 +305,12 @@
 
 - (void)newScene {
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
+    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
+    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
+- (void)leaderboard {
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
     CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
