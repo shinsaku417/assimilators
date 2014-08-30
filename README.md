@@ -1,5 +1,5 @@
 #Assimilators
-##Simple and Fun
+##Simple, Fun, and Challenging
 
 ##Screenshots @ [http://shinuesugi.com/#assimilators](http://shinuesugi.com/#assimilators)
 
