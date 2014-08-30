@@ -66,7 +66,7 @@
 
 - (void)leaderboard {
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
-    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
+    CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
 

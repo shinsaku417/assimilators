@@ -49,7 +49,6 @@
     
     _state1 = state1;
     _state2 = state2;
-    NSLog(@"%@ state1", _state1);
     if ([_state1 isEqualToString:@"red"]) {
         [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
         [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
