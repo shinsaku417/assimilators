@@ -35,6 +35,7 @@
 
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = true;
+    self.multipleTouchEnabled = true;
     _physicsNode.collisionDelegate = self;
 }
 
@@ -43,7 +44,7 @@
     
     _bars = [NSMutableArray array];
     
-    _scrollSpeed = 120;
+    _scrollSpeed = 150;
     
     int rng1 = arc4random() % 3;
     int rng2 = arc4random() % 3;
@@ -197,7 +198,7 @@
 - (void)timer {
     _score++;
     _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
-    _scrollSpeed += 5;
+    _scrollSpeed ++;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
