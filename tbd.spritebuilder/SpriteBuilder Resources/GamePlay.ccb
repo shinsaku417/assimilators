@@ -274,7 +274,7 @@
 							<key>collisionType</key>
 							<string>ball1</string>
 							<key>cornerRadius</key>
-							<real>14</real>
+							<real>13.5</real>
 							<key>density</key>
 							<real>1</real>
 							<key>dynamic</key>
@@ -397,7 +397,7 @@
 							<key>collisionType</key>
 							<string>ball2</string>
 							<key>cornerRadius</key>
-							<real>14</real>
+							<real>13.5</real>
 							<key>density</key>
 							<real>1</real>
 							<key>dynamic</key>
@@ -663,7 +663,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>Copperplate-Bold</string>
+						<string>Helvetica-Bold</string>
 					</dict>
 					<dict>
 						<key>name</key>

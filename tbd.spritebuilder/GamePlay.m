@@ -86,14 +86,14 @@
     
     [self spawnBarLeft];
     
-    float delayTime1 = (arc4random() % 5) * 0.1;
-    float delayTime2 = (arc4random() % 5) * 0.1;
+    float delayTime1 = (arc4random() % 5) * 0.15;
+    float delayTime2 = (arc4random() % 5) * 0.15;
     while (delayTime1 == delayTime2) {
-        delayTime2 = (arc4random() % 5) * 0.1;
+        delayTime2 = (arc4random() % 5) * 0.15;
     }
     
-    [self schedule:@selector(spawnBarLeft) interval:1.5 + delayTime1];
-    [self schedule:@selector(spawnBarRight) interval:1.5 + delayTime2];
+    [self schedule:@selector(spawnBarLeft) interval:1.35 + delayTime1];
+    [self schedule:@selector(spawnBarRight) interval:1.35 + delayTime2];
     
     [self schedule:@selector(timer) interval:1.0f];
 }
@@ -196,7 +196,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"red"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -206,7 +206,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball bluebar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"blue"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -216,7 +216,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball greenbar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"green"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -226,7 +226,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball redbar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"red"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -236,7 +236,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball bluebar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"blue"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -246,7 +246,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball greenbar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"green"]) {
-        [self recap:bar];
+        [self recap:bar andStop:ball];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -254,21 +254,26 @@
     return TRUE;
 }
 
-- (void)recap:(CCSprite *)bar {
+- (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball {
+    self.userInteractionEnabled = false;
+    
+    ball.physicsBody.sensor = true;
+    
     CCActionBlink *blink = [CCActionBlink actionWithDuration:2.f blinks:4];
     [bar runAction:blink];
     _gameOver = true;
+    
     [self unschedule:@selector(timer)];
     [self unschedule:@selector(spawnBarLeft)];
     [self unschedule:@selector(spawnBarRight)];
+    
     [self performSelector:@selector(newScene) withObject:self afterDelay:2.f];
 }
 
 - (void)newScene {
-//    CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
-//    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.8f];
-//    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
-    self.opacity = 0.5;
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
+    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.8f];
+    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
 
 
