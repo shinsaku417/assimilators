@@ -42,10 +42,36 @@
     
     _bars = [NSMutableArray array];
     
-    _scrollSpeed = 80;
+    _scrollSpeed = 120;
     
-    _state1 = @"red";
-    _state2 = @"blue";
+    int rng1 = arc4random() % 3;
+    int rng2 = arc4random() % 3;
+    switch (rng1) {
+        case 0:
+            _state1 = @"red";
+            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
+            break;
+        case 1:
+            _state1 = @"blue";
+            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
+            break;
+        default:
+            _state1 = @"green";
+            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+    }
+    switch (rng2) {
+        case 0:
+            _state2 = @"red";
+            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
+            break;
+        case 1:
+            _state2 = @"blue";
+            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
+            break;
+        default:
+            _state2 = @"green";
+            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+    }
     
     _gameOver = false;
     
@@ -58,8 +84,14 @@
     _center.contentSize = CGSizeMake(self.contentSize.width * 0.02, self.contentSize.height);
     [_physicsNode addChild:_center z:-1];
     
-    [self schedule:@selector(spawnBarLeft) interval:3.f];
-    [self schedule:@selector(spawnBarRight) interval:2.5f];
+    [self spawnBarLeft];
+    [self spawnBarRight];
+    
+    float delayTime = arc4random() % 5 * 0.1;
+    NSLog(@"%f delay",delayTime);
+    
+    [self schedule:@selector(spawnBarLeft) interval:2.f];
+    [self schedule:@selector(spawnBarRight) interval:2.f];
     
     [self schedule:@selector(timer) interval:1.0f];
 }
@@ -96,14 +128,14 @@
     CCSprite *bar = [self generateBar:bar];
     bar.anchorPoint = ccp(1,0.5);
     [_physicsNode addChild:bar z:-1];
-    bar.position = ccp(self.contentSize.width / 2 - _center.contentSize.width / 2,-0.1);
+    bar.position = ccp(self.contentSize.width / 2 - _center.contentSize.width / 2,-0.001);
     [_bars addObject:bar];
 }
 
 - (void)spawnBarRight {
     CCSprite *bar = [self generateBar:bar];
     bar.anchorPoint = ccp(0,0.5);
-    bar.position = ccp(self.contentSize.width / 2 + _center.contentSize.width / 2,-0.1);
+    bar.position = ccp(self.contentSize.width / 2 + _center.contentSize.width / 2,-0.001);
     [_physicsNode addChild:bar z:-1];
     [_bars addObject:bar];
 }
@@ -157,6 +189,7 @@
 - (void)timer {
     _score++;
     _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
+    _scrollSpeed++;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
