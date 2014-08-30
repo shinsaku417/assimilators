@@ -7,6 +7,7 @@
 //
 
 #import "GamePlay.h"
+#import "MainScene.h"
 #import <AudioToolbox/AudioServices.h>
 
 @implementation GamePlay {
@@ -46,34 +47,20 @@
     
     _scrollSpeed = 150;
     
-    int rng1 = arc4random() % 3;
-    int rng2 = arc4random() % 3;
-    switch (rng1) {
-        case 0:
-            _state1 = @"red";
-            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
-            break;
-        case 1:
-            _state1 = @"blue";
-            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
-            break;
-        default:
-            _state1 = @"green";
-            [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+    _state1 = state1;
+    _state2 = state2;
+    NSLog(@"%@ state1", _state1);
+    if ([_state1 isEqualToString:@"red"]) {
+        [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
+        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
+    } else if ([_state1 isEqualToString:@"blue"]) {
+        [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
+        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+    } else {
+        [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
     }
-    switch (rng2) {
-        case 0:
-            _state2 = @"red";
-            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
-            break;
-        case 1:
-            _state2 = @"blue";
-            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
-            break;
-        default:
-            _state2 = @"green";
-            [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
-    }
+    
     
     _gameOver = false;
     
@@ -93,14 +80,46 @@
         [self spawnBarRight];
     }
     
-    float delayTime1 = (arc4random() % 5) * 0.15;
-    float delayTime2 = (arc4random() % 5) * 0.15;
-    while (delayTime1 == delayTime2) {
-        delayTime2 = (arc4random() % 5) * 0.15;
+    int rngDelay = arc4random() % 8;
+    float delay1;
+    float delay2;
+    switch (rngDelay) {
+        case 0:
+            delay1 = 1.3;
+            delay2 = 1.7;
+            break;
+        case 1:
+            delay1 = 1.35;
+            delay2 = 1.65;
+            break;
+        case 2:
+            delay1 = 1.4;
+            delay2 = 1.6;
+            break;
+        case 3:
+            delay1 = 1.45;
+            delay2 = 1.55;
+            break;
+        case 4:
+            delay1 = 1.55;
+            delay2 = 1.45;
+            break;
+        case 5:
+            delay1 = 1.6;
+            delay2 = 1.4;
+            break;
+        case 6:
+            delay1 = 1.65;
+            delay2 = 1.35;
+            break;
+        default:
+            delay1 = 1.7;
+            delay2 = 1.3;
+
     }
     
-    [self schedule:@selector(spawnBarLeft) interval:1.35 + delayTime1];
-    [self schedule:@selector(spawnBarRight) interval:1.35 + delayTime2];
+    [self schedule:@selector(spawnBarLeft) interval:delay1];
+    [self schedule:@selector(spawnBarRight) interval:delay2];
     
     [self schedule:@selector(timer) interval:1.0f];
 }
@@ -198,7 +217,7 @@
 - (void)timer {
     _score++;
     _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
-    _scrollSpeed ++;
+    _scrollSpeed += 2.5;
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
@@ -264,6 +283,12 @@
 - (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball {
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
+    NSNumber *score = [NSNumber numberWithInteger:_score];
+    [MGWU setObject:score forKey:@"score"];
+    if ([[MGWU objectForKey:@"score"]intValue] > [[MGWU objectForKey:@"highscore"]intValue]) {
+        [MGWU setObject:[MGWU objectForKey:@"score"] forKey:@"highscore"];
+    }
+    
     self.userInteractionEnabled = false;
     
     ball.physicsBody.sensor = true;
@@ -280,8 +305,8 @@
 }
 
 - (void)newScene {
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"MainScene"];
-    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.8f];
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
+    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
 

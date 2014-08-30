@@ -8,6 +8,9 @@
 
 #import "CCNode.h"
 
+NSString *state1;
+NSString *state2;
+
 @interface MainScene : CCNode
 
 @end

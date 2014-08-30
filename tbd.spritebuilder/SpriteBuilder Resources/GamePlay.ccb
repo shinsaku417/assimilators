@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>15</integer>
+	<integer>17</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -140,7 +140,7 @@
 			</dict>
 			<dict>
 				<key>UUID</key>
-				<integer>2</integer>
+				<integer>16</integer>
 				<key>baseClass</key>
 				<string>CCNodeColor</string>
 				<key>children</key>
@@ -150,7 +150,7 @@
 				<key>displayName</key>
 				<string>CCNodeColor</string>
 				<key>memberVarAssignmentName</key>
-				<string>_bg2</string>
+				<string>_bg1</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -311,7 +311,7 @@
 								<key>value</key>
 								<array>
 									<real>0.23999997973442078</real>
-									<real>0.64999997615814209</real>
+									<real>0.69999998807907104</real>
 									<integer>0</integer>
 									<integer>2</integer>
 									<integer>2</integer>
@@ -434,7 +434,7 @@
 								<key>value</key>
 								<array>
 									<real>0.74000000953674316</real>
-									<real>0.64999997615814209</real>
+									<real>0.69999998807907104</real>
 									<integer>0</integer>
 									<integer>2</integer>
 									<integer>2</integer>
@@ -614,8 +614,8 @@
 						<key>value</key>
 						<array>
 							<real>0.10000000149011612</real>
-							<real>0.05000000074505806</real>
-							<integer>1</integer>
+							<real>0.050000041723251343</real>
+							<integer>2</integer>
 							<integer>2</integer>
 							<integer>2</integer>
 						</array>
@@ -787,8 +787,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
