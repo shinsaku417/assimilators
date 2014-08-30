@@ -27,6 +27,9 @@
     NSString *_state2;
     
     BOOL _gameOver;
+    
+    int _score;
+    CCLabelTTF *_scoreLabel;
 }
 
 - (void)didLoadFromCCB {
@@ -47,16 +50,18 @@
     _gameOver = false;
     
     _center = [CCNodeColor nodeWithColor:[CCColor blackColor]];
-    _center.opacity = 0.5;
+    _center.opacity = 0.25;
     _center.positionType = CCPositionTypeNormalized;
     _center.position = ccp(0.5,0.5);
     _center.anchorPoint = ccp(0.5,0.5);
     _center.contentSizeType = CCSizeTypeNormalized;
     _center.contentSize = CGSizeMake(self.contentSize.width * 0.02, self.contentSize.height);
-    [_physicsNode addChild:_center z:3];
+    [_physicsNode addChild:_center z:-1];
     
     [self schedule:@selector(spawnBarLeft) interval:3.f];
     [self schedule:@selector(spawnBarRight) interval:2.5f];
+    
+    [self schedule:@selector(timer) interval:1.0f];
 }
 
 - (void)update:(CCTime)delta {
@@ -150,7 +155,8 @@
 }
 
 - (void)timer {
-    
+    _score++;
+    _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
 }
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
@@ -215,6 +221,7 @@
 
 - (void)recap {
     _gameOver = true;
+    [self unschedule:@selector(timer)];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
     CCTransition *transition = [CCTransition transitionFadeWithDuration:0.8f];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
