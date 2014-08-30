@@ -7,6 +7,7 @@
 //
 
 #import "GamePlay.h"
+#import <AudioToolbox/AudioServices.h>
 
 @implementation GamePlay {
     CCPhysicsNode *_physicsNode;
@@ -84,7 +85,12 @@
     _center.contentSize = CGSizeMake(self.contentSize.width * 0.02, self.contentSize.height);
     [_physicsNode addChild:_center z:-1];
     
-    [self spawnBarLeft];
+    int initial = arc4random() % 2;
+    if (initial == 0) {
+        [self spawnBarLeft];
+    } else {
+        [self spawnBarRight];
+    }
     
     float delayTime1 = (arc4random() % 5) * 0.15;
     float delayTime2 = (arc4random() % 5) * 0.15;
@@ -255,6 +261,8 @@
 }
 
 - (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball {
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
     self.userInteractionEnabled = false;
     
     ball.physicsBody.sensor = true;
@@ -271,7 +279,7 @@
 }
 
 - (void)newScene {
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"MainScene"];
     CCTransition *transition = [CCTransition transitionFadeWithDuration:0.8f];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
