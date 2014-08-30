@@ -309,11 +309,5 @@
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
 }
 
-- (void)leaderboard {
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
-    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
-    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
-}
-
 
 @end

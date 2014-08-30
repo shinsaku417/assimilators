@@ -11,6 +11,7 @@
 @implementation Leaderboard {
     NSString *_playerName;
     CCTextField *_textfield;
+    CCScrollView *_leaderboard;
 }
 
 - (void)onEnter {
@@ -25,7 +26,8 @@
 
 - (void)receivedScores:(NSDictionary*)scores
 {
-    NSLog(@"%@", scores);
+    NSDictionary *userScores = [scores objectForKey:@"user"];
+    NSLog(@"%@", userScores);
 }
 
 @end
