@@ -22,12 +22,13 @@
 
 - (void)addName {
     _playerName = _textfield.string;
-    [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
-    //[MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+    [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard"];
+    [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
 }
 
 - (void)receivedScores:(NSDictionary*)scores
 {
+    [_leaderboard.contentNode removeAllChildren];
     NSLog(@"%@",scores);
     float spacing = 0;
     int rankCount = 1;

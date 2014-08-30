@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
-               BuildableName = "tbd.app"
+               BuildableName = "Assimilators.app"
                BlueprintName = "Assimilators"
                ReferencedContainer = "container:Assimilators.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
-            BuildableName = "tbd.app"
+            BuildableName = "Assimilators.app"
             BlueprintName = "Assimilators"
             ReferencedContainer = "container:Assimilators.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
-            BuildableName = "tbd.app"
+            BuildableName = "Assimilators.app"
             BlueprintName = "Assimilators"
             ReferencedContainer = "container:Assimilators.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
-            BuildableName = "tbd.app"
+            BuildableName = "Assimilators.app"
             BlueprintName = "Assimilators"
             ReferencedContainer = "container:Assimilators.xcodeproj">
          </BuildableReference>
