@@ -19,6 +19,7 @@
     float _time;
 }
 
+// Set the original state of the balls
 - (void)onEnter {
     [super onEnter];
     
@@ -31,8 +32,10 @@
     [[CCDirector sharedDirector] presentScene:gameplayScene];
 }
 
+// Change color of balls every 0.5 secs so every starting state is different
 - (void)update:(CCTime)delta {
     _time += delta;
+    // Change sprites of balls and state: red => blue => green => red
     if (_time > 0.5) {
         if ([state1 isEqualToString:@"red"]) {
             state1 = @"blue";
@@ -53,6 +56,7 @@
             state2 = @"blue";
             [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
         }
+        // Reset time
         _time = 0;
     }
 }

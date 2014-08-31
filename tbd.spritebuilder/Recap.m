@@ -9,6 +9,8 @@
 #import "Recap.h"
 #import "MainScene.h"
 
+// Recap class: pretty much similar to mainscene with minor tweaks
+
 @implementation Recap {
     CCNodeColor *_bg;
     

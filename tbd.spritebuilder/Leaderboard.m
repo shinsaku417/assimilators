@@ -20,6 +20,8 @@
     [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
 }
 
+// If name of the player is too long, send them notification
+// If length is fine, then add player's highscore
 - (void)addName {
     _playerName = _textfield.string;
     if (_playerName.length > 18) {
@@ -32,11 +34,15 @@
 
 - (void)receivedScores:(NSDictionary*)scores
 {
+    // Remove all of labels first to cause any overwriting issues
     [_leaderboard.contentNode removeAllChildren];
-    NSLog(@"%@",scores);
+    
+    // Spacing between highscores
     float spacing = 0;
+    // Keeps track of which rank we are on
     int rankCount = 1;
     for (NSDictionary *dict in [scores objectForKey:@"all"]) {
+        // Set rank
         CCLabelTTF *rank = [[CCLabelTTF alloc]init];
         rank.string = [NSString stringWithFormat:@"%i", rankCount];
         rank.positionType = CCPositionTypeNormalized;
@@ -44,6 +50,7 @@
         [self setFont:rank];
         [_leaderboard.contentNode addChild:rank];
         
+        // Set name
         CCLabelTTF *name = [[CCLabelTTF alloc]init];
         name.string = [dict objectForKey:@"name"];
         name.positionType = CCPositionTypeNormalized;
@@ -51,6 +58,7 @@
          [self setFont:name];
         [_leaderboard.contentNode addChild:name];
         
+        // Set score
         CCLabelTTF *score = [[CCLabelTTF alloc]init];
         score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
         score.positionType = CCPositionTypeNormalized;
@@ -58,17 +66,20 @@
         [self setFont:score];
         [_leaderboard.contentNode addChild:score];
         
+        // Add spacing and rankCount then go to next dictionary
         spacing += 0.07;
         rankCount++;
     }
 }
 
+// Set fonts of CCLabelTTF
 - (void)setFont:(CCLabelTTF *)label {
     label.fontName = @"font/Montserrat-Regular.ttf";
     label.fontColor = [CCColor blackColor];
     label.fontSize = 18;
 }
 
+// Go back to the recap screen
 - (void)back {
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
     CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
