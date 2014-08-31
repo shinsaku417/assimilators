@@ -208,14 +208,15 @@
 }
 
 // Check which side is touch on, and change color of the square accordingly
+// Also play click sound
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint touchLocation = [touch locationInNode:self];
     if (touchLocation.x < self.contentSizeInPoints.width / 2 - _center.contentSizeInPoints.width / 2) {
         _state1 = [self changeColor:_ball1 andState:_state1];
-        [self playAudio];
+        [self playSound:@"click" :@"wav"];
     } else if (touchLocation.x > self.contentSizeInPoints.width / 2 + _center.contentSizeInPoints.width / 2) {
         _state2 = [self changeColor:_ball2 andState:_state2];
-        [self playAudio];
+        [self playSound:@"click" :@"wav"];
     }
 }
 
@@ -353,10 +354,7 @@
     [self performSelector:@selector(newScene) withObject:self afterDelay:1.5f];
 }
 
-- (void)playAudio {
-    [self playSound:@"click" :@"wav"];
-}
-
+// Play the sound: code from stack overflow
 - (void)playSound :(NSString *)fName :(NSString *) ext{
     SystemSoundID audioEffect;
     NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];
