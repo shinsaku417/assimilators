@@ -115,6 +115,7 @@
 		F1EC672919B23D58000BF4BB /* send-field-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F1EC66E319B23D58000BF4BB /* send-field-landscape.png */; };
 		F1EC672C19B241FE000BF4BB /* Recap.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC672B19B241FE000BF4BB /* Recap.m */; };
 		F1EC672F19B26103000BF4BB /* Leaderboard.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC672E19B26103000BF4BB /* Leaderboard.m */; };
+		F1EC674419B3B078000BF4BB /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = F1EC674319B3B078000BF4BB /* click.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 		F1EC672B19B241FE000BF4BB /* Recap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recap.m; sourceTree = "<group>"; };
 		F1EC672D19B26103000BF4BB /* Leaderboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Leaderboard.h; sourceTree = "<group>"; };
 		F1EC672E19B26103000BF4BB /* Leaderboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Leaderboard.m; sourceTree = "<group>"; };
+		F1EC674319B3B078000BF4BB /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +386,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F1EC674319B3B078000BF4BB /* click.wav */,
 				B73789911807667A0076A88C /* Icons */,
 				B737893A180761570076A88C /* Published-iOS */,
 			);
@@ -591,6 +594,7 @@
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
 				F1EC66FF19B23D58000BF4BB /* MGWUAboutFooter-Landscape~ipad.png in Resources */,
 				F1EC66F619B23D58000BF4BB /* hipmobsend_field.png in Resources */,
+				F1EC674419B3B078000BF4BB /* click.wav in Resources */,
 				F1EC66E819B23D58000BF4BB /* FacebookIcon.png in Resources */,
 				F1EC671119B23D58000BF4BB /* MGWUBackgroundDark-Portrait@2x~ipad.png in Resources */,
 				F1EC671F19B23D58000BF4BB /* mgwuPlaceholderIcon.png in Resources */,

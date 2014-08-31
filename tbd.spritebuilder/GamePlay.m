@@ -140,8 +140,6 @@
 - (void)update:(CCTime)delta {
     // If not gameover...
     if (!_gameOver) {
-        NSLog(@"%f bg1.y",_bg1.positionInPoints.y);
-        NSLog(@"%f bg2.y",_bg2.positionInPoints.y);
         // Get position of backgrounds
         CGPoint bg1Pos = _bg1.positionInPoints;
         CGPoint bg2Pos = _bg2.positionInPoints;
@@ -214,8 +212,10 @@
     CGPoint touchLocation = [touch locationInNode:self];
     if (touchLocation.x < self.contentSizeInPoints.width / 2 - _center.contentSizeInPoints.width / 2) {
         _state1 = [self changeColor:_ball1 andState:_state1];
+        [self playAudio];
     } else if (touchLocation.x > self.contentSizeInPoints.width / 2 + _center.contentSizeInPoints.width / 2) {
         _state2 = [self changeColor:_ball2 andState:_state2];
+        [self playAudio];
     }
 }
 
@@ -351,6 +351,23 @@
     
     // After bar blink finishes, go to the next scene = recap
     [self performSelector:@selector(newScene) withObject:self afterDelay:1.5f];
+}
+
+- (void)playAudio {
+    [self playSound:@"click" :@"wav"];
+}
+
+- (void)playSound :(NSString *)fName :(NSString *) ext{
+    SystemSoundID audioEffect;
+    NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];
+    if ([[NSFileManager defaultManager] fileExistsAtPath : path]) {
+        NSURL *pathURL = [NSURL fileURLWithPath: path];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
+        AudioServicesPlaySystemSound(audioEffect);
+    }
+    else {
+        NSLog(@"error, file not found: %@", path);
+    }
 }
 
 - (void)newScene {
