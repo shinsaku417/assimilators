@@ -140,6 +140,8 @@
 - (void)update:(CCTime)delta {
     // If not gameover...
     if (!_gameOver) {
+        NSLog(@"%f bg1.y",_bg1.positionInPoints.y);
+        NSLog(@"%f bg2.y",_bg2.positionInPoints.y);
         // Get position of backgrounds
         CGPoint bg1Pos = _bg1.positionInPoints;
         CGPoint bg2Pos = _bg2.positionInPoints;
@@ -153,7 +155,7 @@
         {
             bg1Pos.y -= 2*self.contentSizeInPoints.height;
         }
-        if (bg2Pos.y > 2*self.contentSizeInPoints.height)
+        if (bg2Pos.y > self.contentSizeInPoints.height)
         {
             bg2Pos.y -= 2*self.contentSizeInPoints.height;
         }
