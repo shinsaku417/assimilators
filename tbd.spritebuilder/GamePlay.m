@@ -336,7 +336,7 @@
     [ball removeFromParent];
     
     // Blink the bar that caused death
-    CCActionBlink *blink = [CCActionBlink actionWithDuration:2.f blinks:3];
+    CCActionBlink *blink = [CCActionBlink actionWithDuration:1.5f blinks:3];
     [bar runAction:blink];
     
     // Stop scrolling by setting this true
@@ -348,7 +348,7 @@
     [self unschedule:@selector(spawnBarRight)];
     
     // After bar blink finishes, go to the next scene = recap
-    [self performSelector:@selector(newScene) withObject:self afterDelay:2.f];
+    [self performSelector:@selector(newScene) withObject:self afterDelay:1.5f];
 }
 
 - (void)newScene {
