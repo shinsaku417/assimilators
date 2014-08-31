@@ -149,13 +149,13 @@
         bg2Pos.y += _scrollSpeed * delta;
         
         // If background goes beyond the screen, loop it to create infinite scroll
-        if (bg1Pos.y > ([CCDirector sharedDirector].viewSize.height))
+        if (bg1Pos.y > self.contentSizeInPoints.height)
         {
-            bg1Pos.y -= 2*[CCDirector sharedDirector].viewSize.height;
+            bg1Pos.y -= 2*self.contentSizeInPoints.height;
         }
-        if (bg2Pos.y > ([CCDirector sharedDirector].viewSize.height))
+        if (bg2Pos.y > 2*self.contentSizeInPoints.height)
         {
-            bg2Pos.y -= 2*[CCDirector sharedDirector].viewSize.height;
+            bg2Pos.y -= 2*self.contentSizeInPoints.height;
         }
         
         // Set the positions of backgrounds
@@ -249,7 +249,7 @@
 // Collision between square and bar of different color: Stop scrolling, make square a sensor so it won't bounce off of bar. Then present recap screen
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball redbar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"red"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state1];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -259,7 +259,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball bluebar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"blue"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state1];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -269,7 +269,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball1:(CCSprite *)ball greenbar:(CCSprite *)bar {
     if (![_state1 isEqualToString:@"green"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state1];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -279,7 +279,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball redbar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"red"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state2];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -289,7 +289,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball bluebar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"blue"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state2];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -299,7 +299,7 @@
 
 - (BOOL)ccPhysicsCollisionBegin:(CCPhysicsCollisionPair *)pair ball2:(CCSprite *)ball greenbar:(CCSprite *)bar {
     if (![_state2 isEqualToString:@"green"]) {
-        [self recap:bar andStop:ball];
+        [self recap:bar andStop:ball andParticle:_state2];
     } else {
         bar.physicsBody.sensor = true;
     }
@@ -307,7 +307,7 @@
     return TRUE;
 }
 
-- (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball {
+- (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball andParticle:(NSString *)state {
     // Cause vibration: Make sure to have audio framework
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
@@ -321,11 +321,22 @@
     // Disable touch
     self.userInteractionEnabled = false;
     
-    // Make square a sensor
-    ball.physicsBody.sensor = true;
+    // Add particle effect
+    CCParticleSystem *particle = (CCParticleSystem *)[CCBReader load:@"Particle"];
+    if ([state isEqualToString:@"blue"]) {
+        particle.startColor = [CCColor blueColor];
+        particle.endColor = [CCColor blueColor];
+    } else if ([state isEqualToString:@"green"]) {
+        particle.startColor = [CCColor greenColor];
+        particle.endColor = [CCColor greenColor];
+    }
+    particle.positionType = CCPositionTypeNormalized;
+    particle.position = ball.position;
+    [self addChild:particle];
+    [ball removeFromParent];
     
     // Blink the bar that caused death
-    CCActionBlink *blink = [CCActionBlink actionWithDuration:2.f blinks:4];
+    CCActionBlink *blink = [CCActionBlink actionWithDuration:2.f blinks:3];
     [bar runAction:blink];
     
     // Stop scrolling by setting this true
