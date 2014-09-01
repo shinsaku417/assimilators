@@ -19,6 +19,8 @@
 
 - (void)onEnter {
     [super onEnter];
+    
+    _myName = [[MGWU getMyHighScoreForLeaderboard:@"defaultLeaderboard"] objectForKey:@"name"];
 
     [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
 }
@@ -29,9 +31,11 @@
     _playerName = _textfield.string;
     if (_playerName.length > 18) {
         [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
-    } else {
-        _myName = [[MGWU getMyHighScoreForLeaderboard:@"defaultLeaderboard"] objectForKey:@"name"];
-        NSLog(@"%@ myname",_myName);
+    }
+    else if ([[MGWU objectForKey:@"highscore"]intValue] == 0) {
+        [MGWU showMessage:@"Get Score Above 0 To Submit To The Leaderboard!" withImage:nil];
+    }
+    else {
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
     }
