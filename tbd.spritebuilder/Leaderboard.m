@@ -7,11 +7,14 @@
 //
 
 #import "Leaderboard.h"
+#import <AudioToolbox/AudioServices.h>
 
 @implementation Leaderboard {
     NSString *_playerName;
     CCTextField *_textfield;
     CCScrollView *_leaderboard;
+    
+    NSString *_myName;
 }
 
 - (void)onEnter {
@@ -27,8 +30,26 @@
     if (_playerName.length > 18) {
         [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
     } else {
+        _myName = [[MGWU getMyHighScoreForLeaderboard:@"defaultLeaderboard"] objectForKey:@"name"];
+        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard"];
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+    }
+}
+
+- (void)checkHighscore:(NSDictionary *)scores {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    if (![gameState boolForKey:@"notfirst"]) {
+        [gameState setBool:true forKey:@"notfirst"];
+        [self playSound:@"clap" :@"wav"];
+    } else {
+        for (NSDictionary *dict in [scores objectForKey:@"all"]) {
+            if ([[dict objectForKey:@"name"] isEqualToString:_playerName]) {
+                if ([[MGWU objectForKey:@"highscore"]intValue] > [[dict objectForKey:@"score"]intValue]) {
+                    [self playSound:@"clap" :@"wav"];
+                }
+            }
+        }
     }
 }
 
@@ -81,9 +102,23 @@
 
 // Go back to the recap screen
 - (void)back {
+    [self playSound:@"button" :@"wav"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
     CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
+- (void)playSound :(NSString *)fName :(NSString *) ext{
+    SystemSoundID audioEffect;
+    NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];
+    if ([[NSFileManager defaultManager] fileExistsAtPath : path]) {
+        NSURL *pathURL = [NSURL fileURLWithPath: path];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
+        AudioServicesPlaySystemSound(audioEffect);
+    }
+    else {
+        NSLog(@"error, file not found: %@", path);
+    }
 }
 
 @end

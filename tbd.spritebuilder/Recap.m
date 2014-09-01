@@ -8,6 +8,7 @@
 
 #import "Recap.h"
 #import "MainScene.h"
+#import <AudioToolbox/AudioServices.h>
 
 // Recap class: pretty much similar to mainscene with minor tweaks
 
@@ -23,10 +24,21 @@
     
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_highscoreLabel;
+    CCSprite *_star;
 }
 
 - (void)onEnter {
     [super onEnter];
+    
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    if ([gameState boolForKey:@"gothighscore"] && ![gameState boolForKey:@"leftrecap"]) {
+        [self playSound:@"highscore" :@"mp3"];
+        _star.visible = true;
+        CCActionBlink *blink = [CCActionBlink actionWithDuration:2.f blinks:3.f];
+        [_star runAction:blink];
+    } else if ([gameState boolForKey:@"gothighscore"]) {
+        _star.visible = true;
+    }
     
     _scoreLabel.string = [NSString stringWithFormat:@"%i",[[MGWU objectForKey:@"score"]intValue]];
     _highscoreLabel.string = [NSString stringWithFormat:@"%i",[[MGWU objectForKey:@"highscore"]intValue]];
@@ -36,6 +48,7 @@
 }
 
 - (void)play {
+    [self playSound:@"button" :@"wav"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
     [[CCDirector sharedDirector] presentScene:gameplayScene];
 }
@@ -67,9 +80,25 @@
 }
 
 - (void)leaderboard {
+    [self playSound:@"button" :@"wav"];
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:true forKey:@"leftrecap"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
     CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
+- (void)playSound :(NSString *)fName :(NSString *) ext{
+    SystemSoundID audioEffect;
+    NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];
+    if ([[NSFileManager defaultManager] fileExistsAtPath : path]) {
+        NSURL *pathURL = [NSURL fileURLWithPath: path];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
+        AudioServicesPlaySystemSound(audioEffect);
+    }
+    else {
+        NSLog(@"error, file not found: %@", path);
+    }
 }
 
 @end

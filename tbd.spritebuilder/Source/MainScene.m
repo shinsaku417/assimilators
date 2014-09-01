@@ -7,6 +7,7 @@
 //
 
 #import "MainScene.h"
+#import <AudioToolbox/AudioServices.h>
 
 @implementation MainScene {
     CCNodeColor *_bg;
@@ -28,6 +29,7 @@
 }
 
 - (void)play {
+    [self playSound:@"button" :@"wav"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
     [[CCDirector sharedDirector] presentScene:gameplayScene];
 }
@@ -58,6 +60,19 @@
         }
         // Reset time
         _time = 0;
+    }
+}
+
+- (void)playSound :(NSString *)fName :(NSString *) ext{
+    SystemSoundID audioEffect;
+    NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];
+    if ([[NSFileManager defaultManager] fileExistsAtPath : path]) {
+        NSURL *pathURL = [NSURL fileURLWithPath: path];
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef) pathURL, &audioEffect);
+        AudioServicesPlaySystemSound(audioEffect);
+    }
+    else {
+        NSLog(@"error, file not found: %@", path);
     }
 }
 

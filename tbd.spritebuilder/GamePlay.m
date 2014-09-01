@@ -60,10 +60,12 @@
     [super onEnter];
     
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:false forKey:@"gothighscore"];
+    [gameState setBool:false forKey:@"leftrecap"];
     
     _bars = [NSMutableArray array];
     
-    _scrollSpeed = 150;
+    _scrollSpeed = 250;
     
     // Initial state = states set in the MainScene
     _state1 = state1;
@@ -155,7 +157,10 @@
     }
 }
 
+
+// End tutorial and play game
 - (void)start {
+    [self playSound:@"button" :@"wav"];
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     [gameState setBool:true forKey:@"tutorial"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
@@ -234,16 +239,15 @@
 }
 
 // Check which side is touch on, and change color of the square accordingly
-// Also play click sound
+// Also play clicking sound
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
     CGPoint touchLocation = [touch locationInNode:self];
     if (touchLocation.x < self.contentSizeInPoints.width / 2 - _center.contentSizeInPoints.width / 2) {
         _state1 = [self changeColor:_ball1 andState:_state1];
-        [self playSound:@"click" :@"wav"];
     } else if (touchLocation.x > self.contentSizeInPoints.width / 2 + _center.contentSizeInPoints.width / 2) {
         _state2 = [self changeColor:_ball2 andState:_state2];
-        [self playSound:@"click" :@"wav"];
     }
+    [self playSound:@"tap" :@"wav"];
 }
 
 // Change color and state of the squares
@@ -266,11 +270,9 @@
     return state;
 }
 
-// Add score, update score, and increase scrollspeed by 2.5px
+// Increase scrollspeed by 3px every second
 - (void)timer {
-    _score++;
-    _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
-    _scrollSpeed += 2.5;
+    _scrollSpeed += 3;
 }
 
 // Collisions:
@@ -280,7 +282,7 @@
     if (![_state1 isEqualToString:@"red"]) {
         [self recap:bar andStop:ball andParticle:_state1];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
@@ -290,7 +292,7 @@
     if (![_state1 isEqualToString:@"blue"]) {
         [self recap:bar andStop:ball andParticle:_state1];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
@@ -300,7 +302,7 @@
     if (![_state1 isEqualToString:@"green"]) {
         [self recap:bar andStop:ball andParticle:_state1];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
@@ -310,7 +312,7 @@
     if (![_state2 isEqualToString:@"red"]) {
         [self recap:bar andStop:ball andParticle:_state2];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
@@ -320,7 +322,7 @@
     if (![_state2 isEqualToString:@"blue"]) {
         [self recap:bar andStop:ball andParticle:_state2];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
@@ -330,21 +332,31 @@
     if (![_state2 isEqualToString:@"green"]) {
         [self recap:bar andStop:ball andParticle:_state2];
     } else {
-        bar.physicsBody.sensor = true;
+        [self success:bar];
     }
     
     return TRUE;
 }
 
+// Whenever squares successfully assimilate, add score
+- (void)success:(CCSprite *)bar {
+    bar.physicsBody.sensor = true;
+    _score++;
+    _scoreLabel.string = [NSString stringWithFormat:@"%i", _score];
+    [self playSound:@"assimilate" :@"mp3"];
+}
+
 - (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball andParticle:(NSString *)state {
-    // Cause vibration: Make sure to have audio framework
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    // Breaking sound: Make sure to have audio framework
+    [self playSound:@"break" :@"wav"];
     
     // Set score and highscore if applicable
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     NSNumber *score = [NSNumber numberWithInteger:_score];
     [MGWU setObject:score forKey:@"score"];
     if ([[MGWU objectForKey:@"score"]intValue] > [[MGWU objectForKey:@"highscore"]intValue]) {
         [MGWU setObject:[MGWU objectForKey:@"score"] forKey:@"highscore"];
+        [gameState setBool:true forKey:@"gothighscore"];
     }
     
     // Disable touch
@@ -380,6 +392,12 @@
     [self performSelector:@selector(newScene) withObject:self afterDelay:1.5f];
 }
 
+- (void)newScene {
+    CCScene *recapScene = [CCBReader loadAsScene:@"Recap"];
+    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
+    [[CCDirector sharedDirector] presentScene:recapScene withTransition:transition];
+}
+
 // Play the sound: code from stack overflow
 - (void)playSound :(NSString *)fName :(NSString *) ext{
     SystemSoundID audioEffect;
@@ -392,12 +410,6 @@
     else {
         NSLog(@"error, file not found: %@", path);
     }
-}
-
-- (void)newScene {
-    CCScene *recapScene = [CCBReader loadAsScene:@"Recap"];
-    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
-    [[CCDirector sharedDirector] presentScene:recapScene withTransition:transition];
 }
 
 
