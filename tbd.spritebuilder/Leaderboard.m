@@ -31,9 +31,9 @@
         [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
     } else {
         _myName = [[MGWU getMyHighScoreForLeaderboard:@"defaultLeaderboard"] objectForKey:@"name"];
+        NSLog(@"%@ myname",_myName);
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
-        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard"];
-        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
     }
 }
 
