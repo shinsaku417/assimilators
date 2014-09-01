@@ -33,12 +33,23 @@
 // If length is fine, then add player's highscore
 - (void)addName {
     _playerName = _textfield.string;
-    if (_playerName.length > 18) {
+    
+    // Trim the white spaces from _playerName. If player only enters space for their name, then this will return empty string
+    NSString *nameWithoutContent = [_playerName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // If trimmed string is empty (player enter only white spaces) or didn't enter name
+    if (nameWithoutContent.length == 0) {
+        [MGWU showMessage:@"Please Enter a Valid Name!" withImage:nil];
+    }
+    // If player enter name that is too long
+    else if (_playerName.length > 18) {
         [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
     }
+    // If player's score is 0
     else if ([[MGWU objectForKey:@"highscore"]intValue] == 0) {
         [MGWU showMessage:@"Get Score Above 0 To Submit To The Leaderboard!" withImage:nil];
     }
+    // If player gets through all validation processes
     else {
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
@@ -74,26 +85,30 @@
         // Set rank
         CCLabelTTF *rank = [[CCLabelTTF alloc]init];
         rank.string = [NSString stringWithFormat:@"%i", rankCount];
-        rank.position = ccp(13, 2190 - spacing);
+        rank.positionType = CCPositionTypeNormalized;
+        rank.position = ccp(0.05, 0.995 - spacing);
         [self setFont:rank];
         [_leaderboard.contentNode addChild:rank];
         
         // Set name
         CCLabelTTF *name = [[CCLabelTTF alloc]init];
         name.string = [dict objectForKey:@"name"];
-        name.position = ccp(122, 2190 - spacing);
+        name.positionType = CCPositionTypeNormalized;
+        name.position = ccp(0.15, 0.995 - spacing);
+        name.anchorPoint = ccp(0,0.5);
          [self setFont:name];
         [_leaderboard.contentNode addChild:name];
         
         // Set score
         CCLabelTTF *score = [[CCLabelTTF alloc]init];
         score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
-        score.position = ccp(230, 2190 - spacing);
+        score.positionType = CCPositionTypeNormalized;
+        score.position = ccp(0.9, 0.995 - spacing);
         [self setFont:score];
         [_leaderboard.contentNode addChild:score];
         
         // Add spacing and rankCount then go to next dictionary
-        spacing += 21;
+        spacing += 0.01;
         rankCount++;
     }
 }
@@ -102,7 +117,7 @@
 - (void)setFont:(CCLabelTTF *)label {
     label.fontName = @"font/Montserrat-Regular.ttf";
     label.fontColor = [CCColor blackColor];
-    label.fontSize = 18;
+    label.fontSize = 14;
 }
 
 // Go back to the main or recap screen
@@ -132,7 +147,5 @@
         NSLog(@"error, file not found: %@", path);
     }
 }
-
-
 
 @end

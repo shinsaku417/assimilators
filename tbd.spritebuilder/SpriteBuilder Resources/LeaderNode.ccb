@@ -78,9 +78,9 @@
 				<string>Size</string>
 				<key>value</key>
 				<array>
-					<real>256</real>
+					<real>1</real>
 					<real>2200</real>
-					<integer>0</integer>
+					<integer>2</integer>
 					<integer>0</integer>
 				</array>
 			</dict>
