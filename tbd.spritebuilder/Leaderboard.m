@@ -29,8 +29,11 @@
     [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
 }
 
-// If name of the player is too long, send them notification
-// If length is fine, then add player's highscore
+// Adding highscore after name validation
+// Invalid names:
+// 1. Name only contains spaces
+// 2. Name that is too long
+// Also invalid if score = 0
 - (void)addName {
     _playerName = _textfield.string;
     
@@ -82,35 +85,45 @@
     // Keeps track of which rank we are on
     int rankCount = 1;
     for (NSDictionary *dict in [scores objectForKey:@"all"]) {
-        // Set rank
-        CCLabelTTF *rank = [[CCLabelTTF alloc]init];
-        rank.string = [NSString stringWithFormat:@"%i", rankCount];
-        rank.positionType = CCPositionTypeNormalized;
-        rank.position = ccp(0.05, 0.995 - spacing);
-        [self setFont:rank];
-        [_leaderboard.contentNode addChild:rank];
-        
-        // Set name
-        CCLabelTTF *name = [[CCLabelTTF alloc]init];
-        name.string = [dict objectForKey:@"name"];
-        name.positionType = CCPositionTypeNormalized;
-        name.position = ccp(0.15, 0.995 - spacing);
-        name.anchorPoint = ccp(0,0.5);
-         [self setFont:name];
-        [_leaderboard.contentNode addChild:name];
-        
-        // Set score
-        CCLabelTTF *score = [[CCLabelTTF alloc]init];
-        score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
-        score.positionType = CCPositionTypeNormalized;
-        score.position = ccp(0.9, 0.995 - spacing);
-        [self setFont:score];
-        [_leaderboard.contentNode addChild:score];
-        
-        // Add spacing and rankCount then go to next dictionary
-        spacing += 0.01;
-        rankCount++;
+        if (spacing < 0.99) {
+            // Set rank
+            CCLabelTTF *rank = [[CCLabelTTF alloc]init];
+            rank.string = [NSString stringWithFormat:@"%i", rankCount];
+            rank.positionType = CCPositionTypeNormalized;
+            rank.position = ccp(0.05, 0.995 - spacing);
+            [self setFont:rank];
+            [_leaderboard.contentNode addChild:rank];
+            
+            // Set name
+            CCLabelTTF *name = [[CCLabelTTF alloc]init];
+            name.string = [dict objectForKey:@"name"];
+            name.positionType = CCPositionTypeNormalized;
+            name.position = ccp(0.15, 0.995 - spacing);
+            name.anchorPoint = ccp(0,0.5);
+             [self setFont:name];
+            [_leaderboard.contentNode addChild:name];
+            
+            // Set score
+            CCLabelTTF *score = [[CCLabelTTF alloc]init];
+            score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
+            score.positionType = CCPositionTypeNormalized;
+            score.position = ccp(0.9, 0.995 - spacing);
+            [self setFont:score];
+            [_leaderboard.contentNode addChild:score];
+            
+            // Add spacing and rankCount then go to next dictionary
+            spacing += 0.01;
+            rankCount++;
+        }
     }
+    CCLabelTTF *end= [[CCLabelTTF alloc]init];
+    end.string = @"End of Leaderboard";
+    end.positionType = CCPositionTypeNormalized;
+    end.position = ccp(0.5, 0.005);
+    [self setFont:end];
+    end.fontSize = 16;
+    [_leaderboard.contentNode addChild:end];
+    
 }
 
 // Set fonts of CCLabelTTF
