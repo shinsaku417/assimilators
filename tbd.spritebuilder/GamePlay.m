@@ -62,6 +62,7 @@
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     [gameState setBool:false forKey:@"gothighscore"];
     [gameState setBool:false forKey:@"leftrecap"];
+    [gameState setBool:false forKey:@"frommain"];
     
     _bars = [NSMutableArray array];
     

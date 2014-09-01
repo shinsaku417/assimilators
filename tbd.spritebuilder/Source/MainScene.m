@@ -63,6 +63,15 @@
     }
 }
 
+- (void)leaderboard {
+    [self playSound:@"button" :@"wav"];
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:true forKey:@"frommain"];
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
+    CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:0.5];
+    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
 - (void)playSound :(NSString *)fName :(NSString *) ext{
     SystemSoundID audioEffect;
     NSString *path = [[NSBundle mainBundle] pathForResource : fName ofType :ext];

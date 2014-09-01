@@ -44,7 +44,7 @@
         [self playSound:@"clap" :@"wav"];
     } else {
         for (NSDictionary *dict in [scores objectForKey:@"all"]) {
-            if ([[dict objectForKey:@"name"] isEqualToString:_playerName]) {
+            if ([[dict objectForKey:@"name"] isEqualToString:_myName]) {
                 if ([[MGWU objectForKey:@"highscore"]intValue] > [[dict objectForKey:@"score"]intValue]) {
                     [self playSound:@"clap" :@"wav"];
                 }
@@ -100,12 +100,19 @@
     label.fontSize = 18;
 }
 
-// Go back to the recap screen
+// Go back to the main or recap screen
 - (void)back {
     [self playSound:@"button" :@"wav"];
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
-    CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
-    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    if ([gameState boolForKey:@"frommain"]) {
+        CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+        CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
+        [[CCDirector sharedDirector] presentScene:mainScene withTransition:transition];
+    } else {
+        CCScene *recapScene = [CCBReader loadAsScene:@"Recap"];
+        CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
+        [[CCDirector sharedDirector] presentScene:recapScene withTransition:transition];
+    }
 }
 
 - (void)playSound :(NSString *)fName :(NSString *) ext{
