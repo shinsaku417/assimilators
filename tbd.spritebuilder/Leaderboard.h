@@ -8,6 +8,6 @@
 
 #import "CCScene.h"
 
-@interface Leaderboard : CCScene
+@interface Leaderboard : CCScene <CCScrollViewDelegate>
 
 @end

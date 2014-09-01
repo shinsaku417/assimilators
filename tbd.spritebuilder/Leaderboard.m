@@ -17,6 +17,10 @@
     NSString *_myName;
 }
 
+- (void)didLoadFromCCb {
+    _leaderboard.delegate = self;
+}
+
 - (void)onEnter {
     [super onEnter];
     
@@ -70,29 +74,26 @@
         // Set rank
         CCLabelTTF *rank = [[CCLabelTTF alloc]init];
         rank.string = [NSString stringWithFormat:@"%i", rankCount];
-        rank.positionType = CCPositionTypeNormalized;
-        rank.position = ccp(0.05, 0.95 - spacing);
+        rank.position = ccp(13, 2190 - spacing);
         [self setFont:rank];
         [_leaderboard.contentNode addChild:rank];
         
         // Set name
         CCLabelTTF *name = [[CCLabelTTF alloc]init];
         name.string = [dict objectForKey:@"name"];
-        name.positionType = CCPositionTypeNormalized;
-        name.position = ccp(0.475, 0.95 - spacing);
+        name.position = ccp(122, 2190 - spacing);
          [self setFont:name];
         [_leaderboard.contentNode addChild:name];
         
         // Set score
         CCLabelTTF *score = [[CCLabelTTF alloc]init];
         score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
-        score.positionType = CCPositionTypeNormalized;
-        score.position = ccp(0.9, 0.95 - spacing);
+        score.position = ccp(230, 2190 - spacing);
         [self setFont:score];
         [_leaderboard.contentNode addChild:score];
         
         // Add spacing and rankCount then go to next dictionary
-        spacing += 0.07;
+        spacing += 21;
         rankCount++;
     }
 }
@@ -131,5 +132,7 @@
         NSLog(@"error, file not found: %@", path);
     }
 }
+
+
 
 @end
