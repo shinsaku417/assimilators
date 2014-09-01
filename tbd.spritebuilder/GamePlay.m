@@ -245,10 +245,11 @@
     CGPoint touchLocation = [touch locationInNode:self];
     if (touchLocation.x < self.contentSizeInPoints.width / 2 - _center.contentSizeInPoints.width / 2) {
         _state1 = [self changeColor:_ball1 andState:_state1];
+        [self playSound:@"tap" :@"wav"];
     } else if (touchLocation.x > self.contentSizeInPoints.width / 2 + _center.contentSizeInPoints.width / 2) {
         _state2 = [self changeColor:_ball2 andState:_state2];
+        [self playSound:@"tap" :@"wav"];
     }
-    [self playSound:@"tap" :@"wav"];
 }
 
 // Change color and state of the squares
