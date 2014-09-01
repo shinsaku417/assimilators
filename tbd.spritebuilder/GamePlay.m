@@ -38,6 +38,13 @@
     // Score system
     int _score;
     CCLabelTTF *_scoreLabel;
+    
+    // Tutorial
+    CCSprite *_leftTap;
+    CCSprite *_rightTap;
+    CCLabelTTF *_tutorialLeft;
+    CCLabelTTF *_tutorialRight;
+    CCButton *_startButton;
 }
 
 - (void)didLoadFromCCB {
@@ -51,6 +58,8 @@
 
 - (void)onEnter {
     [super onEnter];
+    
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     
     _bars = [NSMutableArray array];
     
@@ -83,63 +92,80 @@
     [_physicsNode addChild:_center z:-1];
     
     // Randomly spawn initial bar at left or right
-    int initial = arc4random() % 2;
-    if (initial == 0) {
-        [self spawnBarLeft];
+    if ([gameState boolForKey:@"tutorial"]) {
+        int initial = arc4random() % 2;
+        if (initial == 0) {
+            [self spawnBarLeft];
+        } else {
+            [self spawnBarRight];
+        }
+        
+        // 8 Patterns of delay, all adds up to 3s total
+        int rngDelay = arc4random() % 8;
+        float delay1;
+        float delay2;
+        switch (rngDelay) {
+            case 0:
+                delay1 = 1.3;
+                delay2 = 1.7;
+                break;
+            case 1:
+                delay1 = 1.35;
+                delay2 = 1.65;
+                break;
+            case 2:
+                delay1 = 1.4;
+                delay2 = 1.6;
+                break;
+            case 3:
+                delay1 = 1.45;
+                delay2 = 1.55;
+                break;
+            case 4:
+                delay1 = 1.55;
+                delay2 = 1.45;
+                break;
+            case 5:
+                delay1 = 1.6;
+                delay2 = 1.4;
+                break;
+            case 6:
+                delay1 = 1.65;
+                delay2 = 1.35;
+                break;
+            default:
+                delay1 = 1.7;
+                delay2 = 1.3;
+                
+        }
+        
+        // Schedule spawn based on delay
+        [self schedule:@selector(spawnBarLeft) interval:delay1];
+        [self schedule:@selector(spawnBarRight) interval:delay2];
+        
+        // Start timer
+        [self schedule:@selector(timer) interval:1.0f];
     } else {
-        [self spawnBarRight];
+        _bg1.opacity = 0.6;
+        _leftTap.visible = true;
+        _rightTap.visible = true;
+        _tutorialLeft.visible = true;
+        _tutorialRight.visible = true;
+        _startButton.visible = true;
     }
-    
-    // 8 Patterns of delay, all adds up to 3s total
-    int rngDelay = arc4random() % 8;
-    float delay1;
-    float delay2;
-    switch (rngDelay) {
-        case 0:
-            delay1 = 1.3;
-            delay2 = 1.7;
-            break;
-        case 1:
-            delay1 = 1.35;
-            delay2 = 1.65;
-            break;
-        case 2:
-            delay1 = 1.4;
-            delay2 = 1.6;
-            break;
-        case 3:
-            delay1 = 1.45;
-            delay2 = 1.55;
-            break;
-        case 4:
-            delay1 = 1.55;
-            delay2 = 1.45;
-            break;
-        case 5:
-            delay1 = 1.6;
-            delay2 = 1.4;
-            break;
-        case 6:
-            delay1 = 1.65;
-            delay2 = 1.35;
-            break;
-        default:
-            delay1 = 1.7;
-            delay2 = 1.3;
+}
 
-    }
-    
-    // Schedule spawn based on delay
-    [self schedule:@selector(spawnBarLeft) interval:delay1];
-    [self schedule:@selector(spawnBarRight) interval:delay2];
-    
-    // Start timer
-    [self schedule:@selector(timer) interval:1.0f];
+- (void)start {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:true forKey:@"tutorial"];
+    CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
+    [[CCDirector sharedDirector] presentScene:gameplayScene];
 }
 
 - (void)update:(CCTime)delta {
-    // If not gameover...
-    if (!_gameOver) {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    // If not gameover or in tutorial
+    if (!_gameOver && [gameState boolForKey:@"tutorial"]) {
         // Get position of backgrounds
         CGPoint bg1Pos = _bg1.positionInPoints;
         CGPoint bg2Pos = _bg2.positionInPoints;
@@ -369,9 +395,9 @@
 }
 
 - (void)newScene {
-    CCScene *gameplayScene = [CCBReader loadAsScene:@"Recap"];
+    CCScene *recapScene = [CCBReader loadAsScene:@"Recap"];
     CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5];
-    [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+    [[CCDirector sharedDirector] presentScene:recapScene withTransition:transition];
 }
 
 
