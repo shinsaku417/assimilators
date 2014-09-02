@@ -56,7 +56,7 @@
     
     [MGWU loadMGWU:@"Shin29203889912037"];
     
-    [MGWU setGameLinkURL:@"https://itunes.apple.com/app/id914734414"];
+    [MGWU setGameLinkURL:@"https://itunes.apple.com/us/app/assimilators/id914734414?ls=1&mt=8"];
     
     [MGWU setReminderMessage:@"Come Back and Assimilate!"];
     
