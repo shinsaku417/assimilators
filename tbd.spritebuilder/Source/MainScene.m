@@ -79,7 +79,11 @@
 }
 
 - (void)twitter {
-    
+    if ([MGWU isTwitterActive]) {
+        [MGWU postToTwitter:@"Can you beat my highscore? Play Assimilators and find out! @assimilators @makegameswithus"];
+    } else {
+        [MGWU showMessage:@"Please login to twitter to share!" withImage:nil];
+    }
 }
 
 - (void)playSound :(NSString *)fName :(NSString *) ext{

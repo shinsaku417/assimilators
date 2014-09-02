@@ -56,7 +56,9 @@
     
     [MGWU loadMGWU:@"Shin29203889912037"];
     
-    [MGWU setReminderMessage:@"Come back and assimilate!"];
+    [MGWU setGameLinkURL:@"https://itunes.apple.com/app/id914734414"];
+    
+    [MGWU setReminderMessage:@"Come Back and Assimilate!"];
     
     return YES;
 }

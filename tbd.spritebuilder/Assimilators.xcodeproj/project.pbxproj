@@ -39,6 +39,8 @@
 		F11835D119B52F6200E0655B /* Username.m in Sources */ = {isa = PBXBuildFile; fileRef = F11835D019B52F6200E0655B /* Username.m */; };
 		F1AEF74519B55A1B00197706 /* background.wav in Resources */ = {isa = PBXBuildFile; fileRef = F1AEF74419B55A1B00197706 /* background.wav */; };
 		F1AEF74819B568CD00197706 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1AEF74719B568CD00197706 /* Images.xcassets */; };
+		F1AEF74D19B5821B00197706 /* MGWUIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F1AEF74B19B5821B00197706 /* MGWUIcon.png */; };
+		F1AEF74E19B5821B00197706 /* MGWUIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1AEF74C19B5821B00197706 /* MGWUIcon@2x.png */; };
 		F1EC667319B14608000BF4BB /* GamePlay.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC667219B14608000BF4BB /* GamePlay.m */; };
 		F1EC669119B23CEB000BF4BB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669019B23CEB000BF4BB /* libz.dylib */; };
 		F1EC669319B23CF3000BF4BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669219B23CF3000BF4BB /* MessageUI.framework */; };
@@ -182,6 +184,8 @@
 		F11835D019B52F6200E0655B /* Username.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Username.m; sourceTree = "<group>"; };
 		F1AEF74419B55A1B00197706 /* background.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background.wav; sourceTree = "<group>"; };
 		F1AEF74719B568CD00197706 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Assimilators/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		F1AEF74B19B5821B00197706 /* MGWUIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MGWUIcon.png; sourceTree = "<group>"; };
+		F1AEF74C19B5821B00197706 /* MGWUIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MGWUIcon@2x.png"; sourceTree = "<group>"; };
 		F1EC667119B14608000BF4BB /* GamePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlay.h; sourceTree = "<group>"; };
 		F1EC667219B14608000BF4BB /* GamePlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlay.m; sourceTree = "<group>"; };
 		F1EC669019B23CEB000BF4BB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -405,6 +409,8 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F1AEF74B19B5821B00197706 /* MGWUIcon.png */,
+				F1AEF74C19B5821B00197706 /* MGWUIcon@2x.png */,
 				F1AEF74719B568CD00197706 /* Images.xcassets */,
 				F1AEF74419B55A1B00197706 /* background.wav */,
 				F1EC675B19B425C6000BF4BB /* clap.wav */,
@@ -604,6 +610,7 @@
 				F1EC672119B23D58000BF4BB /* mgwuPlaceholderIconDark.png in Resources */,
 				F1EC670219B23D58000BF4BB /* MGWUAboutFooter-Portrait@2x~iphone.png in Resources */,
 				F1EC66FE19B23D58000BF4BB /* MGWUAboutFooter-Landscape@2x~iphone.png in Resources */,
+				F1AEF74E19B5821B00197706 /* MGWUIcon@2x.png in Resources */,
 				F1EC672819B23D58000BF4BB /* send-button-instate.png in Resources */,
 				F1EC671E19B23D58000BF4BB /* mgwuLogoDark@2x.png in Resources */,
 				F1EC672519B23D58000BF4BB /* operator.unavailable.png in Resources */,
@@ -641,6 +648,7 @@
 				F1EC671919B23D58000BF4BB /* MGWUFacebookLoginPortrait.nib in Resources */,
 				F1EC670019B23D58000BF4BB /* MGWUAboutFooter-Landscape~iphone.png in Resources */,
 				F1EC670419B23D58000BF4BB /* MGWUAboutFooter-Portrait~iphone.png in Resources */,
+				F1AEF74D19B5821B00197706 /* MGWUIcon.png in Resources */,
 				F1EC670319B23D58000BF4BB /* MGWUAboutFooter-Portrait~ipad.png in Resources */,
 				F1EC670F19B23D58000BF4BB /* MGWUBackgroundDark-Landscape~ipad.png in Resources */,
 				F1EC672619B23D58000BF4BB /* send-button-active.png in Resources */,
@@ -748,7 +756,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PROVISIONING_PROFILE = "098B0293-C31E-46A6-BA31-372DCC7A8CEA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -768,7 +776,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PROVISIONING_PROFILE = "098B0293-C31E-46A6-BA31-372DCC7A8CEA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
