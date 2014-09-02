@@ -15,6 +15,14 @@
     CCScrollView *_leaderboard;
     
     NSString *_myName;
+    
+    CCNodeColor *_bg1;
+    CCNodeColor *_bg2;
+    CCNodeColor *_bg3;
+    CCNodeColor *_bg4;
+    
+    CCButton *_backButton;
+    CCButton *_changeButton;
 }
 
 - (void)didLoadFromCCb {
@@ -24,54 +32,14 @@
 - (void)onEnter {
     [super onEnter];
     
-    _myName = [[MGWU getMyHighScoreForLeaderboard:@"defaultLeaderboard"] objectForKey:@"name"];
-
-    [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
-}
-
-// Adding highscore after name validation
-// Invalid names:
-// 1. Name only contains spaces
-// 2. Name that is too long
-// Also invalid if score = 0
-- (void)addName {
-    _playerName = _textfield.string;
-    
-    // Trim the white spaces from _playerName. If player only enters space for their name, then this will return empty string
-    NSString *nameWithoutContent = [_playerName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    // If trimmed string is empty (player enter only white spaces) or didn't enter name
-    if (nameWithoutContent.length == 0) {
-        [MGWU showMessage:@"Please Enter a Valid Name!" withImage:nil];
-    }
-    // If player enter name that is too long
-    else if (_playerName.length > 18) {
-        [MGWU showMessage:@"Keep Your Name Under 18 Letters Including Space!" withImage:nil];
-    }
-    // If player's score is 0
-    else if ([[MGWU objectForKey:@"highscore"]intValue] == 0) {
-        [MGWU showMessage:@"Get Score Above 0 To Submit To The Leaderboard!" withImage:nil];
-    }
-    // If player gets through all validation processes
-    else {
-        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
-        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:_playerName forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
-    }
-}
-
-- (void)checkHighscore:(NSDictionary *)scores {
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
-    if (![gameState boolForKey:@"notfirst"]) {
-        [gameState setBool:true forKey:@"notfirst"];
-        [self playSound:@"clap" :@"wav"];
+    [gameState setBool:false forKey:@"changeusername"];
+    
+    if (![[MGWU objectForKey:@"hasusername"]boolValue]) {
+        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+        [self changeUsername];
     } else {
-        for (NSDictionary *dict in [scores objectForKey:@"all"]) {
-            if ([[dict objectForKey:@"name"] isEqualToString:_myName]) {
-                if ([[MGWU objectForKey:@"highscore"]intValue] > [[dict objectForKey:@"score"]intValue]) {
-                    [self playSound:@"clap" :@"wav"];
-                }
-            }
-        }
+        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
     }
 }
 
@@ -90,7 +58,7 @@
             CCLabelTTF *rank = [[CCLabelTTF alloc]init];
             rank.string = [NSString stringWithFormat:@"%i", rankCount];
             rank.positionType = CCPositionTypeNormalized;
-            rank.position = ccp(0.05, 0.995 - spacing);
+            rank.position = ccp(0.05, 0.99 - spacing);
             [self setFont:rank];
             [_leaderboard.contentNode addChild:rank];
             
@@ -98,8 +66,8 @@
             CCLabelTTF *name = [[CCLabelTTF alloc]init];
             name.string = [dict objectForKey:@"name"];
             name.positionType = CCPositionTypeNormalized;
-            name.position = ccp(0.15, 0.995 - spacing);
-            name.anchorPoint = ccp(0,0.5);
+            name.position = ccp(0.5, 0.99 - spacing);
+            name.anchorPoint = ccp(0.5,0.5);
              [self setFont:name];
             [_leaderboard.contentNode addChild:name];
             
@@ -107,30 +75,22 @@
             CCLabelTTF *score = [[CCLabelTTF alloc]init];
             score.string = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"score"]intValue]];
             score.positionType = CCPositionTypeNormalized;
-            score.position = ccp(0.9, 0.995 - spacing);
+            score.position = ccp(0.95, 0.99 - spacing);
             [self setFont:score];
             [_leaderboard.contentNode addChild:score];
             
             // Add spacing and rankCount then go to next dictionary
-            spacing += 0.01;
+            spacing += 0.02;
             rankCount++;
         }
     }
-    CCLabelTTF *end= [[CCLabelTTF alloc]init];
-    end.string = @"End of Leaderboard";
-    end.positionType = CCPositionTypeNormalized;
-    end.position = ccp(0.5, 0.005);
-    [self setFont:end];
-    end.fontSize = 16;
-    [_leaderboard.contentNode addChild:end];
-    
 }
 
 // Set fonts of CCLabelTTF
 - (void)setFont:(CCLabelTTF *)label {
     label.fontName = @"font/Montserrat-Regular.ttf";
     label.fontColor = [CCColor blackColor];
-    label.fontSize = 14;
+    label.fontSize = 15;
 }
 
 // Go back to the main or recap screen
@@ -145,6 +105,40 @@
         CCScene *recapScene = [CCBReader loadAsScene:@"Recap"];
         CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionRight duration:0.5];
         [[CCDirector sharedDirector] presentScene:recapScene withTransition:transition];
+    }
+}
+
+- (void)changeUsername {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:true forKey:@"changeusername"];
+    CCNode *username = [CCBReader load:@"Username" owner:self];
+    username.positionType = CCPositionTypeNormalized;
+    username.position = ccp(0.5,0.5);
+    username.scale = 0;
+    [self addChild:username];
+    CCActionScaleTo *scaleUp = [CCActionScaleTo actionWithDuration:0.15f scale:1.f];
+    [username runAction:scaleUp];
+}
+
+- (void)update:(CCTime)delta {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    if ([gameState boolForKey:@"changeusername"]) {
+        _bg1.opacity = 0.75;
+        _bg2.opacity = 0.75;
+        _bg3.opacity = 0.75;
+        _bg4.opacity = 0.75;
+        _changeButton.enabled = false;
+    } else {
+        _bg1.opacity = 1;
+        _bg2.opacity = 1;
+        _bg3.opacity = 1;
+        _bg4.opacity = 1;
+        _changeButton.enabled = true;
+    }
+    
+    if ([MGWU objectForKey:@"hasusername"] && ![gameState boolForKey:@"firsttime"]) {
+        [gameState setBool:true forKey:@"firsttime"];
+        [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
     }
 }
 

@@ -36,6 +36,7 @@
 		B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3D17B978D7009739AE /* Foundation.framework */; };
 		B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3F17B978D7009739AE /* CoreGraphics.framework */; };
 		B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B4117B978D7009739AE /* CoreText.framework */; };
+		F11835D119B52F6200E0655B /* Username.m in Sources */ = {isa = PBXBuildFile; fileRef = F11835D019B52F6200E0655B /* Username.m */; };
 		F1EC667319B14608000BF4BB /* GamePlay.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC667219B14608000BF4BB /* GamePlay.m */; };
 		F1EC669119B23CEB000BF4BB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669019B23CEB000BF4BB /* libz.dylib */; };
 		F1EC669319B23CF3000BF4BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669219B23CF3000BF4BB /* MessageUI.framework */; };
@@ -175,6 +176,8 @@
 		B77F1B3F17B978D7009739AE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B77F1B4117B978D7009739AE /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		B7B3713D180358F1007369CC /* libObjectiveChipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectiveChipmunk.a; path = "../libs/cocos2d-iphone/external/Chipmunk/xcode/build/Debug-iphoneos/libObjectiveChipmunk.a"; sourceTree = "<group>"; };
+		F11835CF19B52F6200E0655B /* Username.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Username.h; sourceTree = "<group>"; };
+		F11835D019B52F6200E0655B /* Username.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Username.m; sourceTree = "<group>"; };
 		F1EC667119B14608000BF4BB /* GamePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlay.h; sourceTree = "<group>"; };
 		F1EC667219B14608000BF4BB /* GamePlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlay.m; sourceTree = "<group>"; };
 		F1EC669019B23CEB000BF4BB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -315,6 +318,8 @@
 				F1EC672B19B241FE000BF4BB /* Recap.m */,
 				F1EC672D19B26103000BF4BB /* Leaderboard.h */,
 				F1EC672E19B26103000BF4BB /* Leaderboard.m */,
+				F11835CF19B52F6200E0655B /* Username.h */,
+				F11835D019B52F6200E0655B /* Username.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B737893F1807617C0076A88C /* AppDelegate.m in Sources */,
+				F11835D119B52F6200E0655B /* Username.m in Sources */,
 				F1EC672C19B241FE000BF4BB /* Recap.m in Sources */,
 				F1EC667319B14608000BF4BB /* GamePlay.m in Sources */,
 				B7378994180767190076A88C /* MainScene.m in Sources */,
