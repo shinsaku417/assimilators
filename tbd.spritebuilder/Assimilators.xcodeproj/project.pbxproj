@@ -37,6 +37,7 @@
 		B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B3F17B978D7009739AE /* CoreGraphics.framework */; };
 		B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B77F1B4117B978D7009739AE /* CoreText.framework */; };
 		F11835D119B52F6200E0655B /* Username.m in Sources */ = {isa = PBXBuildFile; fileRef = F11835D019B52F6200E0655B /* Username.m */; };
+		F1AEF74519B55A1B00197706 /* background.wav in Resources */ = {isa = PBXBuildFile; fileRef = F1AEF74419B55A1B00197706 /* background.wav */; };
 		F1EC667319B14608000BF4BB /* GamePlay.m in Sources */ = {isa = PBXBuildFile; fileRef = F1EC667219B14608000BF4BB /* GamePlay.m */; };
 		F1EC669119B23CEB000BF4BB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669019B23CEB000BF4BB /* libz.dylib */; };
 		F1EC669319B23CF3000BF4BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EC669219B23CF3000BF4BB /* MessageUI.framework */; };
@@ -178,6 +179,7 @@
 		B7B3713D180358F1007369CC /* libObjectiveChipmunk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libObjectiveChipmunk.a; path = "../libs/cocos2d-iphone/external/Chipmunk/xcode/build/Debug-iphoneos/libObjectiveChipmunk.a"; sourceTree = "<group>"; };
 		F11835CF19B52F6200E0655B /* Username.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Username.h; sourceTree = "<group>"; };
 		F11835D019B52F6200E0655B /* Username.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Username.m; sourceTree = "<group>"; };
+		F1AEF74419B55A1B00197706 /* background.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = background.wav; sourceTree = "<group>"; };
 		F1EC667119B14608000BF4BB /* GamePlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlay.h; sourceTree = "<group>"; };
 		F1EC667219B14608000BF4BB /* GamePlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlay.m; sourceTree = "<group>"; };
 		F1EC669019B23CEB000BF4BB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -401,6 +403,7 @@
 		B77F1B4617B978D7009739AE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F1AEF74419B55A1B00197706 /* background.wav */,
 				F1EC675B19B425C6000BF4BB /* clap.wav */,
 				F1EC675719B423E7000BF4BB /* highscore.mp3 */,
 				F1EC675119B41B3F000BF4BB /* button.wav */,
@@ -637,6 +640,7 @@
 				F1EC670319B23D58000BF4BB /* MGWUAboutFooter-Portrait~ipad.png in Resources */,
 				F1EC670F19B23D58000BF4BB /* MGWUBackgroundDark-Landscape~ipad.png in Resources */,
 				F1EC672619B23D58000BF4BB /* send-button-active.png in Resources */,
+				F1AEF74519B55A1B00197706 /* background.wav in Resources */,
 				F1EC675019B418BF000BF4BB /* tap.wav in Resources */,
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,
 				F1EC671A19B23D58000BF4BB /* MGWUFacebookLoginPortraitDark.nib in Resources */,

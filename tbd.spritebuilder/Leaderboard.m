@@ -23,6 +23,8 @@
     
     CCButton *_backButton;
     CCButton *_changeButton;
+    
+    NSMutableArray *_nameArray;
 }
 
 - (void)didLoadFromCCb {
@@ -34,6 +36,10 @@
     
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     [gameState setBool:false forKey:@"changeusername"];
+    
+    // Add all names on the leaderboard into an array to prevent same names from appearing
+    _nameArray = [NSMutableArray array];
+    [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkName:) onTarget:self];
     
     // If a player has never set an username
     if (![[MGWU objectForKey:@"hasusername"]boolValue]) {
@@ -93,13 +99,20 @@
 }
 
 // Compare previous highscore (score on leaderboard) with current highscore
-// If current highscore is higher, then play clapping sound
+// If current highscore is higher, then play clapping sound and set previous highscore
 - (void)checkHighscore:(NSDictionary *)scores {
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     if ([[MGWU objectForKey:@"highscore"]intValue] > [gameState integerForKey:@"scorebefore"]) {
         [self playSound:@"clap" :@"wav"];
         [gameState setInteger:[[MGWU objectForKey:@"highscore"]intValue] forKey:@"scorebefore"];
     }
+}
+
+- (void)checkName:(NSDictionary *)scores {
+    for (NSDictionary *dict in [scores objectForKey:@"all"]) {
+        [_nameArray addObject:[dict objectForKey:@"name"]];
+    }
+    [MGWU setObject:_nameArray forKey:@"namearray"];
 }
 
 // Set fonts of CCLabelTTF
@@ -140,14 +153,15 @@
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     // If a player is changing username
     if ([gameState boolForKey:@"changeusername"]) {
-        _bg1.opacity = 0.75;
-        _bg2.opacity = 0.75;
-        _bg3.opacity = 0.75;
-        _bg4.opacity = 0.75;
+        _bg1.opacity = 0.6;
+        _bg2.opacity = 0.6;
+        _bg3.opacity = 0.6;
+        _bg4.opacity = 0.6;
         _changeButton.enabled = false;
     }
     // If a player is not changing username
     else {
+        self.userInteractionEnabled = true;
         _bg1.opacity = 1;
         _bg2.opacity = 1;
         _bg3.opacity = 1;

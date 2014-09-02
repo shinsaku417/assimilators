@@ -25,13 +25,19 @@
     [super onEnter];
     
     state1 = @"red";
-    state2 = @"blue";
+    state2 = @"blue";    
 }
 
 - (void)play {
     [self playSound:@"button" :@"wav"];
     CCScene *gameplayScene = [CCBReader loadAsScene:@"GamePlay"];
     [[CCDirector sharedDirector] presentScene:gameplayScene];
+}
+
+- (void)runTutorial {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    [gameState setBool:false forKey:@"tutorial"];
+    [self play];
 }
 
 // Change color of balls every 0.5 secs so every starting state is different
@@ -70,6 +76,10 @@
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
     CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
+- (void)twitter {
+    
 }
 
 - (void)playSound :(NSString *)fName :(NSString *) ext{

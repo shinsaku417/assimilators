@@ -53,6 +53,13 @@
     [[CCDirector sharedDirector] presentScene:gameplayScene];
 }
 
+- (void)home {
+    [self playSound:@"button" :@"wav"];
+    CCScene *mainScene = [CCBReader loadAsScene:@"MainScene"];
+    CCTransition *transition = [CCTransition transitionFadeWithDuration:0.5f];
+    [[CCDirector sharedDirector] presentScene:mainScene withTransition:transition];
+}
+
 - (void)update:(CCTime)delta {
     _time += delta;
     if (_time > 0.5) {
@@ -86,6 +93,10 @@
     CCScene *gameplayScene = [CCBReader loadAsScene:@"Leaderboard"];
     CCTransition *transition = [CCTransition transitionPushWithDirection:CCTransitionDirectionLeft duration:0.5];
     [[CCDirector sharedDirector] presentScene:gameplayScene withTransition:transition];
+}
+
+- (void)twitter {
+    
 }
 
 - (void)playSound :(NSString *)fName :(NSString *) ext{

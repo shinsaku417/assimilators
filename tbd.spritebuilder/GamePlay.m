@@ -9,6 +9,7 @@
 #import "GamePlay.h"
 #import "MainScene.h"
 #import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVFoundation.h>
 
 @implementation GamePlay {
     CCPhysicsNode *_physicsNode;
@@ -45,6 +46,8 @@
     CCLabelTTF *_tutorialLeft;
     CCLabelTTF *_tutorialRight;
     CCButton *_startButton;
+    
+    AVAudioPlayer *_player;
 }
 
 - (void)didLoadFromCCB {
@@ -64,6 +67,16 @@
     [gameState setBool:false forKey:@"leftrecap"];
     [gameState setBool:false forKey:@"frommain"];
     
+    // Play background music
+    if ([gameState boolForKey:@"tutorial"]) {
+        NSString *soundFilePath = [[NSBundle mainBundle] pathForResource:@"background" ofType:@"wav"];
+        NSURL *soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+        _player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+        _player.numberOfLoops = -1;
+        _player.currentTime = 1;
+        [_player play];
+    }
+    
     _bars = [NSMutableArray array];
     
     _scrollSpeed = 250;
@@ -73,13 +86,17 @@
     _state2 = state2;
     if ([_state1 isEqualToString:@"red"]) {
         [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
-        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
     } else if ([_state1 isEqualToString:@"blue"]) {
         [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
-        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
     } else {
         [_ball1 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
+    }
+    if ([_state2 isEqualToString:@"red"]) {
         [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/red.png"]];
+    } else if ([_state2 isEqualToString:@"blue"]) {
+        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/blue.png"]];
+    } else {
+        [_ball2 setSpriteFrame:[CCSpriteFrame frameWithImageNamed:@"image/green.png"]];
     }
     
     
@@ -245,9 +262,11 @@
     CGPoint touchLocation = [touch locationInNode:self];
     if (touchLocation.x < self.contentSizeInPoints.width / 2 - _center.contentSizeInPoints.width / 2) {
         _state1 = [self changeColor:_ball1 andState:_state1];
+        state1 = _state1;
         [self playSound:@"tap" :@"wav"];
     } else if (touchLocation.x > self.contentSizeInPoints.width / 2 + _center.contentSizeInPoints.width / 2) {
         _state2 = [self changeColor:_ball2 andState:_state2];
+        state2 = _state2;
         [self playSound:@"tap" :@"wav"];
     }
 }
@@ -349,8 +368,10 @@
 }
 
 - (void)recap:(CCSprite *)bar andStop:(CCSprite *)ball andParticle:(NSString *)state {
-    // Breaking sound: Make sure to have audio framework
+    // Breaking sound: Make sure to have audio framework, also vibrate and stop music
     [self playSound:@"break" :@"wav"];
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    [_player stop];
     
     // Set score and highscore if applicable
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
