@@ -489,8 +489,6 @@
 								</array>
 							</dict>
 						</array>
-						<key>selected</key>
-						<true/>
 					</dict>
 				</array>
 				<key>customClass</key>
@@ -1541,7 +1539,7 @@ square’s color!</string>
 						<string>String</string>
 						<key>value</key>
 						<array>
-							<string>LET'S START</string>
+							<string>START</string>
 							<false/>
 						</array>
 					</dict>
@@ -1751,6 +1749,8 @@ square’s color!</string>
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
