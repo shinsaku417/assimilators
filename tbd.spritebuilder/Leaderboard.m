@@ -35,11 +35,19 @@
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
     [gameState setBool:false forKey:@"changeusername"];
     
+    // If a player has never set an username
     if (![[MGWU objectForKey:@"hasusername"]boolValue]) {
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
         [self changeUsername];
-    } else {
+    }
+    // A player set a username before:
+    // Check if current highscore is greater than previous highscore (to play clapping sound if so)
+    // Submit the highscore
+    // Set the previous username
+    else {
+        [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+        [gameState setObject:[MGWU objectForKey:@"username"] forKey:@"nameonleaderboard"];
     }
 }
 
@@ -68,7 +76,7 @@
             name.positionType = CCPositionTypeNormalized;
             name.position = ccp(0.5, 0.99 - spacing);
             name.anchorPoint = ccp(0.5,0.5);
-             [self setFont:name];
+            [self setFont:name];
             [_leaderboard.contentNode addChild:name];
             
             // Set score
@@ -83,6 +91,16 @@
             spacing += 0.02;
             rankCount++;
         }
+    }
+}
+
+// Compare previous highscore (score on leaderboard) with current highscore
+// If current highscore is higher, then play clapping sound
+- (void)checkHighscore:(NSDictionary *)scores {
+    NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    if ([[MGWU objectForKey:@"highscore"]intValue] > [gameState integerForKey:@"scorebefore"]) {
+        [self playSound:@"clap" :@"wav"];
+        [gameState setInteger:[[MGWU objectForKey:@"highscore"]intValue] forKey:@"scorebefore"];
     }
 }
 
@@ -122,13 +140,16 @@
 
 - (void)update:(CCTime)delta {
     NSUserDefaults *gameState = [NSUserDefaults standardUserDefaults];
+    // If a player is changing username
     if ([gameState boolForKey:@"changeusername"]) {
         _bg1.opacity = 0.75;
         _bg2.opacity = 0.75;
         _bg3.opacity = 0.75;
         _bg4.opacity = 0.75;
         _changeButton.enabled = false;
-    } else {
+    }
+    // If a player is not changing username
+    else {
         _bg1.opacity = 1;
         _bg2.opacity = 1;
         _bg3.opacity = 1;
@@ -136,9 +157,14 @@
         _changeButton.enabled = true;
     }
     
+    // If player adds a username for the first time, update the leaderboard to show it up
+    // Also add clapping soud, set previous username, and set previous highscore for next
     if ([MGWU objectForKey:@"hasusername"] && ![gameState boolForKey:@"firsttime"]) {
         [gameState setBool:true forKey:@"firsttime"];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
+        [self playSound:@"clap" :@"wav"];
+        [gameState setObject:[MGWU objectForKey:@"username"] forKey:@"nameonleaderboard"];
+        [gameState setInteger:[[MGWU objectForKey:@"highscore"]intValue] forKey:@"scorebefore"];
     }
 }
 
