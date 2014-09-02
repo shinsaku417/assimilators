@@ -43,11 +43,9 @@
     // A player set a username before:
     // Check if current highscore is greater than previous highscore (to play clapping sound if so)
     // Submit the highscore
-    // Set the previous username
     else {
         [MGWU getHighScoresForLeaderboard:@"defaultLeaderboard" withCallback:@selector(checkHighscore:) onTarget:self];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
-        [gameState setObject:[MGWU objectForKey:@"username"] forKey:@"nameonleaderboard"];
     }
 }
 
@@ -158,12 +156,11 @@
     }
     
     // If player adds a username for the first time, update the leaderboard to show it up
-    // Also add clapping soud, set previous username, and set previous highscore for next
+    // Also add clapping sound and set previous highscore for next
     if ([MGWU objectForKey:@"hasusername"] && ![gameState boolForKey:@"firsttime"]) {
         [gameState setBool:true forKey:@"firsttime"];
         [MGWU submitHighScore:[[MGWU objectForKey:@"highscore"]intValue] byPlayer:[MGWU objectForKey:@"username"] forLeaderboard:@"defaultLeaderboard" withCallback:@selector(receivedScores:) onTarget:self];
         [self playSound:@"clap" :@"wav"];
-        [gameState setObject:[MGWU objectForKey:@"username"] forKey:@"nameonleaderboard"];
         [gameState setInteger:[[MGWU objectForKey:@"highscore"]intValue] forKey:@"scorebefore"];
     }
 }
